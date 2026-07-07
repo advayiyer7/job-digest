@@ -104,9 +104,10 @@ def post_issue(title, body):
     if not token or not repo:
         print(f"\n=== {title} ===\n{body}")
         return
+    owner = repo.split("/")[0]
     req = urllib.request.Request(
         f"https://api.github.com/repos/{repo}/issues",
-        data=json.dumps({"title": title, "body": body}).encode(),
+        data=json.dumps({"title": title, "body": body, "assignees": [owner]}).encode(),
         headers={
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.github+json",
